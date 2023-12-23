@@ -93,6 +93,8 @@ public class EmployerPage {
                     case 2 -> CVs.get(CVs.size() - 1).setStatus(CVStatus.Decline);
                 }
 
+                System.out.println("\u001B[32mResponse CV successfully\u001B[0m");
+
                 for(CV cv : CVs) {
                     company.sentCV.offer(cv);
                 }
@@ -118,7 +120,7 @@ public class EmployerPage {
         arr.add(curCV);
 
         if (!company.storage.isEmpty() && company.storage.peek().getUser() == curCV.getUser()) {
-            while (curCV.getDate().equals(company.storage.peek().getDate())) {
+            while (curCV.getCVid() == company.storage.peek().getCVid()) {
                 arr.add(company.storage.pop());
 
                 if (company.storage.isEmpty() || company.storage.peek() == null) {

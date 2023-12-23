@@ -5,6 +5,7 @@ import DataStructures.Array;
 import Entities.CV;
 import Entities.Company;
 import Entities.User;
+import Helpers.GenerateId;
 import Helpers.checkValid;
 import Services.CompanyService;
 import View.Menus;
@@ -81,7 +82,7 @@ public class UserPage {
         arr.add(curCV.getMessage());
 
         if (!user.storage.isEmpty() && user.storage.peek().getUser() == curCV.getUser()) {
-            while (curCV.getDate().equals(user.storage.peek().getDate())) {
+            while (curCV.getCVid() == user.storage.peek().getCVid()) {
                 arr.add(user.storage.pop().getMessage());
 
                 if (user.storage.isEmpty() || user.storage.peek() == null) {
@@ -189,11 +190,14 @@ public class UserPage {
 
             if (confirmChoice == 1) {
                 if (checkValid.isValidLength(message)) {
+                    curCV.setCVid(GenerateId.generateCvId());
                     user.sentCV.offer(curCV);
                 } else {
                     String[] arr = checkValid.devidePartsOfMessage(message);
+                    int id = GenerateId.generateCvId();
                     for (String curMes : arr) {
                         CV newCV = new CV(company, user);
+                        newCV.setCVid(id);
                         newCV.generateCVTemplate(curMes);
                         user.sentCV.offer(newCV);
                     }
