@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class CV {
+    private int CVid;
     private Company company;
     private User user;
     private Date date;
@@ -17,32 +18,19 @@ public class CV {
         return company;
     }
 
-    public Date getDate() {
-        return date;
+    public int getCVid() {
+        return CVid;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setCVid(int CVid) {
+        this.CVid = CVid;
     }
 
-    public void setCompany(Company company) {
-        this.company = company;
-    }
+    public Date getDate() { return date; }
+
 
     public User getUser() {
         return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public CVStatus getStatus() {
-        return status;
     }
 
     public void setStatus(CVStatus status) {
@@ -51,10 +39,6 @@ public class CV {
 
     public String getMessage() {
         return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
     }
 
     public CV(Company company, User user) {
@@ -103,7 +87,12 @@ public class CV {
                 .append("Date: ").append(dateFormat.format(this.date)).append("\n");
 
         template.append("------------------------------------------------------------").append("\n");
-        template.append("Status: ").append(this.status).append("\n");
+        template.append("Status: ");
+        if (this.status == CVStatus.Accept) {
+            template.append("\u001B[32m").append(this.status).append("\u001B[0m\n"); // Green color for Accept
+        } else {
+            template.append("\u001B[31m").append(this.status).append("\u001B[0m\n"); // Red color for Decline
+        }
         template.append("------------------------------------------------------------").append("\n");
 
         return template.toString();
